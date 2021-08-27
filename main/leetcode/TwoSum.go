@@ -1,19 +1,28 @@
-package leetcode
+package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func main() {
-	fmt.Println("Hello world")
+	nums := []int{2, 7, 11, 15}
+	target := 9
 
-	var myint int8
-	for i:= 0; i< 129; i++ {
-		myint += 1
+	//nums := []int{3,2,4}
+	//target := 6
+	fmt.Println(twoSum(nums, target))
+}
+
+// key = item, value = index
+// nums := []int{3,2,4}
+// target := 6
+func twoSum(nums []int, target int) []int {
+	m := make(map[int]int)
+	for i, item := range nums {
+		if value, ok := m[target-item]; ok {
+			return []int{i, value}
+		}
+		m[item] = i
 	}
-	fmt.Println(myint)
-
-	var maxFloat float32
-	maxFloat = 16777216
-	fmt.Println(maxFloat == maxFloat + 10)
-	fmt.Println(maxFloat + 10)
-	fmt.Println(int(maxFloat))
+	return []int{}
 }
