@@ -2,18 +2,30 @@ package main
 
 import "fmt"
 
-func main () {
-	fmt.Println("Hello world")
+func main() {
+	var myName = "Syed Mainul Hasan"
+	fmt.Println("My name is", myName)
 
-	var myint int8
-	for i:= 0; i< 129; i++ {
-		myint += 1
-	}
-	fmt.Println(myint)
+	var name string
+	name = "Kathy"
+	fmt.Println("name=", name)
 
-	var maxFloat float32
-	maxFloat = 16777216
-	fmt.Println(maxFloat == maxFloat + 10)
-	fmt.Println(maxFloat + 10)
-	fmt.Println(int(maxFloat))
+	var sum int
+	fmt.Println("The sum is", sum)
+
+	part1, _ := 3, 0
+	part2, _ := 2, 1
+	sum = part1 + part2
+	fmt.Println("sum = ", sum)
+
+	var (
+		lessonName = "variables"
+		lessonType = "Demo"
+	)
+
+	fmt.Println("lessonName = ", lessonName)
+	fmt.Println("lessonType = ", lessonType)
+
+	word1, word2, _ := "Hello", "world", "!"
+	fmt.Println(word1, word2)
 }
