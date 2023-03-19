@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 //--Summary:
 //  The existing program is used to restrict access to a resource
@@ -19,21 +23,21 @@ import "fmt"
 
 // days of the week as constants
 const (
-	Monday    = 1
-	Tuesday   = 2
-	Wednesday = 3
-	Thursday  = 4
-	Friday    = 5
-	Saturday  = 6
-	Sunday    = 7
+	Monday    = "Monday"
+	Tuesday   = "Tuesday"
+	Wednesday = "Wednesday"
+	Thursday  = "Thursday"
+	Friday    = "Friday"
+	Saturday  = "Saturday"
+	Sunday    = "Sunday"
 )
 
 const (
-	Admin      = 10
-	Manager    = 20
-	Contractor = 30
-	Member     = 40
-	Guest      = 50
+	Admin      = "Admin"
+	Manager    = "Manager"
+	Contractor = "Contractor"
+	Member     = "Member"
+	Guest      = "Guest"
 )
 
 func accessGranted() {
@@ -44,22 +48,44 @@ func accessRevoked() {
 	fmt.Println("Access denied")
 }
 
-func weekDay(day int) bool {
-	return day < 6
+func isWeekDay(day string) bool {
+	return !isWeekend(day)
+}
+
+func isWeekend(day string) bool {
+	return day == Saturday || day == Sunday
 }
 func main() {
+	var today, role string
 
-	today, role := Sunday, Contractor
+	reader := bufio.NewScanner(os.Stdin)
 
-	if role == Admin || role == Manager {
-		accessGranted()
-	} else if role == Contractor && !weekDay(today) {
-		accessGranted()
-	} else if role == Member && weekDay(today) {
-		accessGranted()
-	} else if role == Guest && (today == Monday || today == Wednesday || today == Friday) {
-		accessGranted()
-	} else {
-		accessRevoked()
+	for {
+		fmt.Println("What day is it? (Monday, Tuesday, Wednesday, Thursday, Friday, Saturday, Sunday)")
+		reader.Scan()
+		today = reader.Text()
+		fmt.Println("What is your role? (Admin, Manager, Contractor, Member, Guest)")
+		reader.Scan()
+		role = reader.Text()
+
+		if role == Admin || role == Manager {
+			accessGranted()
+		} else if role == Contractor && isWeekend(today) {
+			accessGranted()
+		} else if role == Member && isWeekDay(today) {
+			accessGranted()
+		} else if role == Guest && (today == Monday || today == Wednesday || today == Friday) {
+			accessGranted()
+		} else if role == "none" {
+			exit()
+			break
+		} else {
+			accessRevoked()
+		}
 	}
+
+}
+
+func exit() {
+	fmt.Println("Exiting program")
 }
